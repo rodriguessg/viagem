@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contagem Regressiva - Viagem Alagoas e Pernambuco</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.18.9/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 600px;
+            margin: 1rem auto;
+            text-align: center;
+        }
+        .time-unit {
+            transition: transform 0.3s ease;
+        }
+        .time-unit:hover {
+            transform: scale(1.1);
+        }
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .plane-container {
+            position: fixed;
+            top: 20%;
+            left: -100px;
+            transition: left 5s linear;
+            z-index: 100;
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .plane-container {
+                display: block;
+            }
+        }
+        .plane {
+            font-size: 2rem;
+            color: #ffeb3b;
+            transform: rotate(-45deg);
+        }
+        .dotted-trail::after {
+            content: "................................................................................";
+            letter-spacing: 5px;
+            color: #ffeb3b;
+            position: absolute;
+            left: -300px;
+            top: 50%;
+            white-space: nowrap;
+        }
+        .destination-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .destination-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        .btn-explore {
+            background: linear-gradient(45deg, #ff6f61, #ff9f43);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .btn-explore:hover {
+            transform: scale(1.05);
+        }
+        .weather-box {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 90%;
+            width: 600px;
+        }
+        @media (max-width: 640px) {
+            .countdown-box {
+                padding: 1rem;
+                width: 100%;
+            }
+            .countdown-box h1 {
+                font-size: 1.5rem;
+            }
+            .countdown-box p {
+                font-size: 0.875rem;
+            }
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .time-unit {
+                padding: 0.5rem;
+            }
+            .time-unit span:first-child {
+                font-size: 1.5rem;
+            }
+            .time-unit span:last-child {
+                font-size: 0.75rem;
+            }
+            .destination-card img {
+                height: 100px;
+            }
+            .destination-card h3 {
+                font-size: 1rem;
+            }
+            .destination-card p {
+                font-size: 0.75rem;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            .weather-box p, .weather-box h3 {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start pt-5">
+    <div id="root"></div>
+    <div class="plane-container">
+        <div class="dotted-trail">
+            <i class="fas fa-plane plane"></i>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        function Countdown() {
+            const [timeLeft, setTimeLeft] = React.useState({});
+
+            React.useEffect(() => {
+                const targetDate = new Date('October 5, 2025 00:00:00').getTime();
+
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    setTimeLeft({ days, hours, minutes, seconds });
+
+                    if (distance < 0) {
+                        clearInterval(interval);
+                        setTimeLeft({ expired: true });
+                    }
+                }, 1000);
+
+                return () => clearInterval(interval);
+            }, []);
+
+            return (
+                <div className="countdown-box">
+                    <h1 className="text-5xl font-bold text-blue-800 mb-4 flex items-center justify-center">
+                        <i className="fas fa-umbrella-beach mr-3 text-yellow-500"></i>
+                        Viagem para Alagoas e Pernambuco
+                    </h1>
+                    <p className="text-lg text-gray-800 mb-6">11 aventureiros estão contando os dias para 9 de Outubro de 2025!</p>
+                    {timeLeft.expired ? (
+                        <h2 className="text-3xl font-semibold text-green-600 flex items-center justify-center">
+                            <i className="fas fa-plane-departure mr-2"></i> A viagem começou!
+                        </h2>
+                    ) : (
+                        <div className="grid grid-cols-4 gap-4 mb-8">
+                            <div className="bg-blue-200 p-4 rounded-lg time-unit">
+                                <span className="block text-4xl font-bold text-blue-800 pulse">{timeLeft.days || 0}</span>
+                                <span className="text-sm text-gray-700">Dias</span>
+                            </div>
+                            <div className="bg-blue-200 p-4 rounded-lg time-unit">
+                                <span className="block text-4xl font-bold text-blue-800 pulse">{timeLeft.hours || 0}</span>
+                                <span className="text-sm text-gray-700">Horas</span>
+                            </div>
+                            <div className="bg-blue-200 p-4 rounded-lg time-unit">
+                                <span className="block text-4xl font-bold text-blue-800 pulse">{timeLeft.minutes || 0}</span>
+                                <span className="text-sm text-gray-700">Minutos</span>
+                            </div>
+                            <div className="bg-blue-200 p-4 rounded-lg time-unit">
+                                <span className="block text-4xl font-bold text-blue-800 pulse">{timeLeft.seconds || 0}</span>
+                                <span className="text-sm text-gray-700">Segundos</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        function Destinations() {
+            const destinations = [
+                {
+                    name: "Porto de Galinhas, PE",
+                    description: "Famosa pelas piscinas naturais e águas cristalinas, Porto de Galinhas é um paraíso para quem ama praia e mergulho.",
+                    image: "https://images.unsplash.com/photo-1590692229591-ccd7d7d0c4c8?q=80&w=2070&auto=format&fit=crop"
+                },
+                {
+                    name: "Praia do Gunga, AL",
+                    description: "Com falésias coloridas e um mar de tons azulados, a Praia do Gunga é um dos cartões-postais de Alagoas.",
+                    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
+                },
+                {
+                    name: "Maragogi, AL",
+                    description: "Conhecida como o 'Caribe Brasileiro', Maragogi encanta com suas galés e águas mornas perfeitas para snorkeling.",
+                    image: "https://images.unsplash.com/photo-1599941461666-0b5e8a8d7f9d?q=80&w=2070&auto=format&fit=crop"
+                },
+                {
+                    name: "Recife, PE",
+                    description: "A capital pernambucana mistura história e modernidade, com destaque para o Bairro do Recife e suas pontes charmosas.",
+                    image: "https://images.unsplash.com/photo-1599926699995-1c78e4695535?q=80&w=2070&auto=format&fit=crop"
+                },
+                {
+                    name: "São Miguel dos Milagres, AL",
+                    description: "Um refúgio tranquilo com praias desertas e águas mornas, perfeito para relaxar e apreciar a natureza.",
+                    image: "https://images.unsplash.com/photo-1599941461666-0b5e8a8d7f9d?q=80&w=2070&auto=format&fit=crop"
+                },
+                {
+                    name: "Olinda, PE",
+                    description: "Cidade histórica com ladeiras charmosas, igrejas antigas e um carnaval famoso mundialmente.",
+                    image: "https://images.unsplash.com/photo-1599926699995-1c78e4695535?q=80&w=2070&auto=format&fit=crop"
+                },
+                {
+                    name: "Praia dos Carneiros, PE",
+                    description: "Uma praia paradisíaca com coqueiros, águas calmas e a famosa igrejinha à beira-mar.",
+                    image: "https://images.unsplash.com/photo-1590692229591-ccd7d7d0c4c8?q=80&w=2070&auto=format&fit=crop"
+                }
+            ];
+
+            return (
+                <div className="max-w-5xl mx-auto py-10">
+                    <h2 className="text-4xl font-bold text-center text-white mb-8 flex items-center justify-center">
+                        <i className="fas fa-map-marker-alt mr-3 text-yellow-400"></i>
+                        Explore Alagoas e Pernambuco
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {destinations.map((dest, index) => (
+                            <div key={index} className="destination-card">
+                                <img src={dest.image} alt={dest.name} />
+                                <div className="p-4 text-gray-800">
+                                    <h3 className="text-xl font-semibold">{dest.name}</h3>
+                                    <p className="text-sm mt-2">{dest.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function CarRental() {
+            const rentalOptions = [
+                {
+                    name: "Localiza",
+                    description: "Uma das maiores locadoras do Brasil, com ampla frota e pontos de retirada em Maceió e Recife.",
+                    link: "#"
+                },
+                {
+                    name: "Movida",
+                    description: "Oferece preços competitivos e veículos novos, com opções de retirada nos aeroportos da região.",
+                    link: "#"
+                },
+                {
+                    name: "Unidas",
+                    description: "Conhecida pelo bom atendimento e variedade de carros, ideal para quem busca conforto e praticidade.",
+                    link: "#"
+                }
+            ];
+
+            return (
+                <div className="max-w-5xl mx-auto py-10">
+                    <h2 className="text-4xl font-bold text-center text-white mb-8 flex items-center justify-center">
+                        <i className="fas fa-car mr-3 text-yellow-400"></i>
+                        Aluguel de Carros
+                    </h2>
+                    <p className="text-center text-white mb-6">Recomendamos alugar um carro para explorar a região com mais liberdade. Aqui estão algumas opções confiáveis:</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                        {rentalOptions.map((option, index) => (
+                            <div key={index} className="destination-card text-gray-800">
+                                <div className="p-4">
+                                    <h3 className="text-xl font-semibold">{option.name}</h3>
+                                    <p className="text-sm mt-2">{option.description}</p>
+                                    <a href={option.link} className="btn-explore inline-block mt-4">Visitar Site</a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function WeatherForecast() {
+            const forecastData = [
+                { date: "05/10/2025", maceio: { temp: 28, condition: "Ensolarado" }, recife: { temp: 27, condition: "Parcialmente Nublado" } },
+                { date: "06/10/2025", maceio: { temp: 27, condition: "Chuva Leve" }, recife: { temp: 26, condition: "Chuva Leve" } },
+                { date: "07/10/2025", maceio: { temp: 29, condition: "Ensolarado" }, recife: { temp: 28, condition: "Ensolarado" } },
+                { date: "08/10/2025", maceio: { temp: 28, condition: "Parcialmente Nublado" }, recife: { temp: 27, condition: "Parcialmente Nublado" } },
+                { date: "09/10/2025", maceio: { temp: 29, condition: "Ensolarado" }, recife: { temp: 28, condition: "Ensolarado" } },
+                { date: "10/10/2025", maceio: { temp: 27, condition: "Chuva Leve" }, recife: { temp: 26, condition: "Chuva Leve" } },
+                { date: "11/10/2025", maceio: { temp: 28, condition: "Ensolarado" }, recife: { temp: 27, condition: "Ensolarado" } },
+            ];
+
+            return (
+                <div className="weather-box text-gray-800">
+                    <h2 className="text-4xl font-bold text-center mb-8 flex items-center justify-center">
+                        <i className="fas fa-cloud-sun mr-3 text-yellow-400"></i>
+                        Previsão do Tempo (Simulada)
+                    </h2>
+                    <p className="text-center mb-6">*Previsão simulada, pois a API não cobre datas futuras. Baseada em padrões climáticos típicos da região em outubro.</p>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="bg-blue-200">
+                                    <th className="p-2">Data</th>
+                                    <th className="p-2">Maceió, AL</th>
+                                    <th className="p-2">Recife, PE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {forecastData.map((day, index) => (
+                                    <tr key={index} className={index % 2 === 0 ? "bg-blue-50" : "bg-white"}>
+                                        <td className="p-2">{day.date}</td>
+                                        <td className="p-2">{day.maceio.temp}°C, {day.maceio.condition}</td>
+                                        <td className="p-2">{day.recife.temp}°C, {day.recife.condition}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <Countdown />
+                    <Destinations />
+                    <CarRental />
+                    <div className="text-center mt-10 mb-10">
+                        <a href="#" className="btn-explore inline-block">Saiba Mais Sobre a Viagem</a>
+                    </div>
+                    <WeatherForecast />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+
+        window.addEventListener('scroll', () => {
+            const planeContainer = document.querySelector('.plane-container');
+            const scrollPosition = window.scrollY;
+            if (scrollPosition > 100) {
+                planeContainer.style.left = '110%';
+            } else {
+                planeContainer.style.left = '-100px';
+            }
+        });
+    </script>
+</body>
+</html>
