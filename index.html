@@ -75,6 +75,7 @@
             border-radius: 10px;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
         .destination-card:hover {
             transform: translateY(-10px);
@@ -85,15 +86,17 @@
             height: 120px;
             object-fit: cover;
         }
-        .btn-explore {
+        .btn-explore, .btn-map {
             background: linear-gradient(45deg, #ff6f61, #ff9f43);
             padding: 0.5rem 1.5rem;
             border-radius: 25px;
             color: white;
             font-weight: bold;
             transition: transform 0.3s ease;
+            display: inline-block;
+            margin-top: 0.5rem;
         }
-        .btn-explore:hover {
+        .btn-explore:hover, .btn-map:hover {
             transform: scale(1.05);
         }
         .weather-box {
@@ -106,6 +109,50 @@
         }
         .weather-box table {
             font-size: 0.875rem;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 90%;
+            max-height: 90%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .modal-content img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .close-button {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
         @media (max-width: 640px) {
             .countdown-box {
@@ -170,7 +217,7 @@
             .weather-box th, .weather-box td {
                 padding: 0.5rem;
             }
-            .btn-explore {
+            .btn-explore, .btn-map {
                 padding: 0.5rem 1.5rem;
                 font-size: 0.875rem;
             }
@@ -183,6 +230,18 @@
             }
             .mb-10 {
                 margin-bottom: 2rem;
+            }
+            .modal-content img {
+                max-height: 254px;
+            }
+            .modal-content {
+                padding: 1rem;
+            }
+            .modal-content h3 {
+                font-size: 1.25rem;
+            }
+            .modal-content p {
+                font-size: 0.875rem;
             }
         }
     </style>
@@ -258,43 +317,66 @@
         }
 
         function Destinations() {
+            const [selectedDestination, setSelectedDestination] = React.useState(null);
+
             const destinations = [
                 {
                     name: "Porto de Galinhas, PE",
                     description: "Famosa pelas piscinas naturais e águas cristalinas, Porto de Galinhas é um paraíso para quem ama praia e mergulho.",
-                    image: "https://images.unsplash.com/photo-1619281936935-35a40f7d3f45?q=80&w=2070&auto=format&fit=crop"
+                    image: "https://www.viajenaviagem.com/wp-content/uploads/2015/12/piscinas-naturais-porto-de-galinhas.jpg.webp",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/Porto+de+Galinhas,+Ipojuca+-+PE/@-8.5047177,-35.0130685,14z"
+                },
+                {
+                    name: "Praia de Serrambi, PE",
+                    description: "Um refúgio tranquilo a 10 km de Porto de Galinhas, com águas cristalinas, piscinas naturais e ideal para snorkeling e relaxamento.",
+                    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/Praia+de+Serrambi,+Ipojuca+-+PE/@-8.558487,-35.0130685,14z"
                 },
                 {
                     name: "Praia do Gunga, AL",
                     description: "Com falésias coloridas e um mar de tons azulados, a Praia do Gunga é um dos cartões-postais de Alagoas.",
-                    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
+                    image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/69/e0/39/praia-do-gunga.jpg?w=1200&h=-1&s=1",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/Praia+do+Gunga,+Roteiro+-+AL/@-9.077427,-35.0130685,14z"
                 },
                 {
                     name: "Maragogi, AL",
                     description: "Conhecida como o 'Caribe Brasileiro', Maragogi encanta com suas galés e águas mornas perfeitas para snorkeling.",
-                    image: "https://images.unsplash.com/photo-1599941461666-0b5e8a8d7f9d?q=80&w=2070&auto=format&fit=crop"
+                    image: "https://vivoportodegalinhas.com/wp-content/uploads/2022/10/Mapa-das-praias-Maragogi-Vivo-Porto-de-Galinhas-1.png",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/Maragogi,+AL/@-8.759927,-35.0130685,14z"
                 },
                 {
                     name: "Recife, PE",
                     description: "A capital pernambucana mistura história e modernidade, com destaque para o Bairro do Recife e suas pontes charmosas.",
-                    image: "https://images.unsplash.com/photo-1599926699995-1c78e4695535?q=80&w=2070&auto=format&fit=crop"
+                    image: "https://images.unsplash.com/photo-1599926699995-1c78e4695535?q=80&w=2070&auto=format&fit=crop",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/Recife,+PE/@-8.2827177,-35.0130685,14z"
                 },
                 {
                     name: "São Miguel dos Milagres, AL",
                     description: "Um refúgio tranquilo com praias desertas e águas mornas, perfeito para relaxar e apreciar a natureza.",
-                    image: "https://images.unsplash.com/photo-1622817682237-532891a2d048?q=80&w=2070&auto=format&fit=crop"
+                    image: "https://images.unsplash.com/photo-1622817682237-532891a2d048?q=80&w=2070&auto=format&fit=crop",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/São+Miguel+dos+Milagres,+AL/@-8.933427,-35.0130685,14z"
                 },
                 {
                     name: "Olinda, PE",
                     description: "Cidade histórica com ladeiras charmosas, igrejas antigas e um carnaval famoso mundialmente.",
-                    image: "https://images.unsplash.com/photo-1599926699995-1c78e4695535?q=80&w=2070&auto=format&fit=crop"
+                    image: "https://i.ytimg.com/vi/DAfZ-yMcmuY/maxresdefault.jpg",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/Olinda,+PE/@-8.2462177,-35.0130685,14z"
                 },
                 {
                     name: "Praia dos Carneiros, PE",
-                    description: "Uma praia paradisíaca com coqueiros, águas calmas e a famosa igrejinha à beira-mar.",
-                    image: "https://images.unsplash.com/photo-1619281936935-35a40f7d3f45?q=80&w=2070&auto=format&fit=crop"
+                    description: "Uma praia paradisíaca em Tamandaré, a 50 km de Porto de Galinhas, com coqueirais, águas calmas, piscinas naturais na maré baixa e a icônica Capela de São Benedito à beira-mar, ideal para passeios de catamarã e esportes aquáticos como snorkeling e stand-up paddle.",
+                    image: "https://www.viagenscinematograficas.com.br/wp-content/uploads/2018/12/Praia-dos-Carneiros-O-que-Fazer-Capa.jpg",
+                    mapUrl: "https://www.google.com/maps/dir/Porto+de+Galinhas,+Ipojuca+-+PE/Praia+dos+Carneiros,+Tamandaré+-+PE/@-8.679927,-35.0130685,14z"
                 }
             ];
+
+            const openModal = (dest) => {
+                setSelectedDestination(dest);
+            };
+
+            const closeModal = () => {
+                setSelectedDestination(null);
+            };
 
             return (
                 <div className="max-w-5xl mx-auto py-10">
@@ -304,15 +386,33 @@
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {destinations.map((dest, index) => (
-                            <div key={index} className="destination-card">
+                            <div key={index} className="destination-card" onClick={() => openModal(dest)}>
                                 <img src={dest.image} alt={dest.name} />
                                 <div className="p-4 text-gray-800">
                                     <h3 className="text-xl font-semibold">{dest.name}</h3>
                                     <p className="text-sm mt-2">{dest.description}</p>
+                                    <a href={dest.mapUrl} target="_blank" className="btn-map inline-block mt-4" onClick={(e) => e.stopPropagation()}>
+                                        Ver Rota
+                                    </a>
                                 </div>
                             </div>
                         ))}
                     </div>
+                    {selectedDestination && (
+                        <div className="modal" onClick={closeModal}>
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <button className="close-button" onClick={closeModal}>×</button>
+                                <img src={selectedDestination.image} alt={selectedDestination.name} />
+                                <div className="p-4 text-gray-800">
+                                    <h3 className="text-2xl font-semibold">{selectedDestination.name}</h3>
+                                    <p className="text-base mt-2">{selectedDestination.description}</p>
+                                    <a href={selectedDestination.mapUrl} target="_blank" className="btn-map inline-block mt-4">
+                                       Ver Rota
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         }
@@ -360,12 +460,12 @@
 
         function WeatherForecast() {
             const forecastData = [
-                { date: "05/10/2025", maceio: { temp: 28, condition: "Ensolarado" }, recife: { temp: 27, condition: "Parcialmente Nublado" } },
-                { date: "06/10/2025", maceio: { temp: 27, condition: "Chuva Leve" }, recife: { temp: 26, condition: "Chuva Leve" } },
+                { date: "05/10/2025", maceio: { temp: 28, condition: "Ensolarado" }, recife: { temp: 27, condition: "Ensolarado" } },
+                { date: "06/10/2025", maceio: { temp: 27, condition: "Parcialmente Nublado" }, recife: { temp: 26, condition: "Parcialmente Nublado" } },
                 { date: "07/10/2025", maceio: { temp: 29, condition: "Ensolarado" }, recife: { temp: 28, condition: "Ensolarado" } },
-                { date: "08/10/2025", maceio: { temp: 28, condition: "Parcialmente Nublado" }, recife: { temp: 27, condition: "Parcialmente Nublado" } },
+                { date: "08/10/2025", maceio: { temp: 28, condition: "Chuva Leve" }, recife: { temp: 27, condition: "Chuva Leve" } },
                 { date: "09/10/2025", maceio: { temp: 29, condition: "Ensolarado" }, recife: { temp: 28, condition: "Ensolarado" } },
-                { date: "10/10/2025", maceio: { temp: 27, condition: "Chuva Leve" }, recife: { temp: 26, condition: "Chuva Leve" } },
+                { date: "10/10/2025", maceio: { temp: 27, condition: "Parcialmente Nublado" }, recife: { temp: 26, condition: "Parcialmente Nublado" } },
                 { date: "11/10/2025", maceio: { temp: 28, condition: "Ensolarado" }, recife: { temp: 27, condition: "Ensolarado" } },
             ];
 
@@ -375,7 +475,7 @@
                         <i className="fas fa-cloud-sun mr-3 text-yellow-400"></i>
                         Previsão do Tempo (Simulada)
                     </h2>
-                    <p className="text-center mb-6">*Previsão simulada, pois a API não cobre datas futuras. Baseada em padrões climáticos típicos da região em outubro.</p>
+                    <p className="text-center mb-6">*Previsão simulada para outubro de 2025, baseada em padrões climáticos históricos de Maceió e Recife. Verifique previsões atualizadas próximas à data da viagem.</p>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
