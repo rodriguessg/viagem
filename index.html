@@ -154,6 +154,25 @@
             cursor: pointer;
             font-size: 1.2rem;
         }
+        .restaurant-list {
+            margin-top: 1rem;
+            text-align: left;
+        }
+        .restaurant-list h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+        .restaurant-list ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+        .restaurant-list li {
+            font-size: 0.875rem;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
         @media (max-width: 640px) {
             .countdown-box {
                 padding: 1.5rem;
@@ -243,6 +262,12 @@
             .modal-content p {
                 font-size: 0.875rem;
             }
+            .restaurant-list h4 {
+                font-size: 0.875rem;
+            }
+            .restaurant-list li {
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -324,51 +349,89 @@
                     name: "Porto de Galinhas, PE",
                     description: "Famosa pelas piscinas naturais e águas cristalinas, Porto de Galinhas é um paraíso para quem ama praia e mergulho.",
                     image: "https://www.viajenaviagem.com/wp-content/uploads/2015/12/piscinas-naturais-porto-de-galinhas.jpg.webp",
-                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Porto+de+Galinhas+-+N.+S%C3%A3o+do+%C3%93,+Ipojuca+-+PE/@-8.7527311,-35.1269011,15z/data=!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7aa92264444c639:0x22d2d29248113c5e!2m2!1d-35.0059569!2d-8.5065261?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Porto+de+Galinhas+-+N.+S%C3%A3o+do+%C3%93,+Ipojuca+-+PE/@-8.7527311,-35.1269011,15z/data=!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7aa92264444c639:0x22d2d29248113c5e!2m2!1d-35.0059569!2d-8.5065261?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "Beijupirá - Especializado em frutos do mar com toque regional.",
+                        "Barcaxeira - Famoso por pratos com macaxeira e culinária nordestina.",
+                        "Munganga Bistrô - Oferece pratos criativos em um ambiente charmoso."
+                    ]
                 },
                 {
                     name: "Praia de Serrambi, PE",
                     description: "Um refúgio tranquilo a 10 km de Porto de Galinhas, com águas cristalinas, piscinas naturais e ideal para snorkeling e relaxamento.",
                     image: "https://www.amazonasemais.com.br/wp-content/uploads/2021/03/serrambi-20.jpg",
-                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Praia+de+Serrambi,+Av.+dos+Santos+-+Ponta+de+Serrambi,+Ipojuca+-+PE,+55590-000/@-8.6304437,-35.1763989,12z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7aa903e0d25c59d:0x23658e9f8ddcf8ae!2m2!1d-35.0162969!2d-8.5597228?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Praia+de+Serrambi,+Av.+dos+Santos+-+Ponta+de+Serrambi,+Ipojuca+-+PE,+55590-000/@-8.6304437,-35.1763989,12z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7aa903e0d25c59d:0x23658e9f8ddcf8ae!2m2!1d-35.0162969!2d-8.5597228?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "Restaurante Coral - Frutos do mar frescos com vista para o mar.",
+                        "Serrambi Grill - Churrasco e pratos regionais em ambiente descontraído.",
+                        "Pizzaria da Praia - Pizzas artesanais com ingredientes locais."
+                    ]
                 },
                 {
                     name: "Praia do Gunga, AL",
                     description: "Com falésias coloridas e um mar de tons azulados, a Praia do Gunga é um dos cartões-postais de Alagoas.",
                     image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/69/e0/39/praia-do-gunga.jpg?w=1200&h=-1&s=1",
-                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Praia+do+Gunga,+Roteiro+-+AL/@-9.2626769,-36.2483067,9z/data=!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x70400b73e7c37bd:0x9caa99fa890d9a91!2m2!1d-35.9040769!2d-9.8593898?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Praia+do+Gunga,+Roteiro+-+AL/@-9.2626769,-36.2483067,9z/data=!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x70400b73e7c37bd:0x9caa99fa890d9a91!2m2!1d-35.9040769!2d-9.8593898?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "Bar das Ostras - Ostras frescas e pratos de frutos do mar.",
+                        "Restaurante Gungaporanga - Gastronomia sofisticada com vista para as falésias.",
+                        "Quiosque do Zezé - Petiscos e bebidas em um ambiente praiano."
+                    ]
                 },
                 {
                     name: "Maragogi, AL",
                     description: "Conhecida como o 'Caribe Brasileiro', Maragogi encanta com suas galés e águas mornas perfeitas para snorkeling.",
                     image: "https://vivoportodegalinhas.com/wp-content/uploads/2022/10/Mapa-das-praias-Maragogi-Vivo-Porto-de-Galinhas-1.png",
-                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Maragogi,+AL,+57955-000/@-8.8727986,-35.3288504,11z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x700f54d6c7b13db:0x7a5d839403b9f392!2m2!1d-35.2213954!2d-9.0127163?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Maragogi,+AL,+57955-000/@-8.8727986,-35.3288504,11z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x700f54d6c7b13db:0x7a5d839403b9f392!2m2!1d-35.2213954!2d-9.0127163?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "Ouidi - Frutos do mar com toque sofisticado e vista para o mar.",
+                        "Tapioca da Maria - Tapiocas recheadas com ingredientes regionais.",
+                        "Restaurante Tuyn - Pratos nordestinos em um ambiente rústico."
+                    ]
                 },
                 {
-                    name: "praia de ipioca, maceio ",
-                    description: " é um paraíso de águas calmas e esverdeadas, coqueirais e paisagens deslumbrantes, com areia fofa e temperatura agradável da água.",
+                    name: "Praia de Ipioca, Maceió",
+                    description: "É um paraíso de águas calmas e esverdeadas, coqueirais e paisagens deslumbrantes, com areia fofa e temperatura agradável da água.",
                     image: "https://maceioatlantic.com/wp-content/uploads/2016/07/praia_de_ipioca.jpg",
-                    
-                    mapUrl: "https://www.google.com/maps/dir/tamandare/Praia+de+Ipioca,+Alagoas/@-9.1058386,-36.1065256,9z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7013e409c7599ab:0xc88748f7e780a6f2!2m2!1d-35.592916!2d-9.5303698?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/tamandare/Praia+de+Ipioca,+Alagoas/@-9.1058386,-36.1065256,9z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7013e409c7599ab:0xc88748f7e780a6f2!2m2!1d-35.592916!2d-9.5303698?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "Imperador dos Camarões - Especializado em camarões e frutos do mar.",
+                        "Wanchako - Culinária peruana com influência nordestina.",
+                        "Le Bristot - Café e pratos leves em um ambiente aconchegante."
+                    ]
                 },
                 {
                     name: "São Miguel dos Milagres, AL",
                     description: "Um refúgio tranquilo com praias desertas e águas mornas, perfeito para relaxar e apreciar a natureza.",
                     image: "https://www.viagenscinematograficas.com.br/wp-content/uploads/2020/12/Sao-Miguel-dos-Milagres-AL-Capa.jpg",
-                    mapUrl:"https://www.google.com/maps/dir/Tamandar%C3%A9+-+Tamandar%C3%A9,+PE,+55578-000/S%C3%A3o+Miguel+dos+Milagres,+AL,+57940-000/@-8.7907007,-35.9623088,9z/data=!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x700fd3bd24492b9:0xdcd9540c15e67784!2m2!1d-35.373503!2d-9.2670672?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9+-+Tamandar%C3%A9,+PE,+55578-000/S%C3%A3o+Miguel+dos+Milagres,+AL,+57940-000/@-8.7907007,-35.9623088,9z/data=!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x700fd3bd24492b9:0xdcd9540c15e67784!2m2!1d-35.373503!2d-9.2670672?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "No Quintal - Gastronomia artesanal com ingredientes locais.",
+                        "Restaurante do Enildo - Peixes e frutos do mar frescos.",
+                        "Pousada do Toque - Restaurante com pratos sofisticados."
+                    ]
                 },
-            
-                {   
+                {
                     name: "Olinda, PE",
                     description: "Cidade histórica com ladeiras charmosas, igrejas antigas e um carnaval famoso mundialmente.",
                     image: "https://i.ytimg.com/vi/DAfZ-yMcmuY/maxresdefault.jpg",
-                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Olinda,+PE/@-8.3754623,-35.3397874,10z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7ab17fa77c07f29:0x78d856ff05dd791!2m2!1d-34.8422297!2d-7.9920228?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Olinda,+PE/@-8.3754623,-35.3397874,10z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7ab17fa77c07f29:0x78d856ff05dd791!2m2!1d-34.8422297!2d-7.9920228?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "Oficina do Sabor - Culinária regional com vista para o mar.",
+                        "Beijupirá Olinda - Pratos nordestinos com toque sofisticado.",
+                        "Patuá - Especializado em tapiocas e pratos locais."
+                    ]
                 },
                 {
                     name: "Praia dos Carneiros, PE",
                     description: "Uma praia paradisíaca em Tamandaré, a 50 km de Porto de Galinhas, com coqueirais, águas calmas, piscinas naturais na maré baixa e a icônica Capela de São Benedito à beira-mar, ideal para passeios de catamarã e esportes aquáticos como snorkeling e stand-up paddle.",
                     image: "https://www.viagenscinematograficas.com.br/wp-content/uploads/2018/12/Praia-dos-Carneiros-O-que-Fazer-Capa.jpg",
-                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Praia+dos+Carneiros+-+Tamandar%C3%A9,+PE,+55578-000/@-8.7368929,-35.1197321,14z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7aa82437ea03031:0x336f75ffd9e3f152!2m2!1d-35.087068!2d-8.7156743?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+                    mapUrl: "https://www.google.com/maps/dir/Tamandar%C3%A9,+PE/Praia+dos+Carneiros+-+Tamandar%C3%A9,+PE,+55578-000/@-8.7368929,-35.1197321,14z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x70078e06ac8d227:0x845b3f4b57b22d64!2m2!1d-35.1050712!2d-8.7578663!1m5!1m1!1s0x7aa82437ea03031:0x336f75ffd9e3f152!2m2!1d-35.087068!2d-8.7156743?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+                    restaurants: [
+                        "Beijupirá Carneiros - Frutos do mar com vista para a praia.",
+                        "Restaurante Arikindá - Pratos regionais em um ambiente rústico.",
+                        "Bora Bora - Petiscos e drinks em um quiosque à beira-mar."
+                    ]
                 }
             ];
 
@@ -393,6 +456,14 @@
                                 <div className="p-4 text-gray-800">
                                     <h3 className="text-xl font-semibold">{dest.name}</h3>
                                     <p className="text-sm mt-2">{dest.description}</p>
+                                    <div className="restaurant-list">
+                                        <h4>Restaurantes Recomendados:</h4>
+                                        <ul>
+                                            {dest.restaurants.map((restaurant, idx) => (
+                                                <li key={idx}>{restaurant}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                     <a href={dest.mapUrl} target="_blank" className="btn-map inline-block mt-4" onClick={(e) => e.stopPropagation()}>
                                         Ver Rota
                                     </a>
@@ -408,8 +479,16 @@
                                 <div className="p-4 text-gray-800">
                                     <h3 className="text-2xl font-semibold">{selectedDestination.name}</h3>
                                     <p className="text-base mt-2">{selectedDestination.description}</p>
+                                    <div className="restaurant-list">
+                                        <h4>Restaurantes Recomendados:</h4>
+                                        <ul>
+                                            {selectedDestination.restaurants.map((restaurant, idx) => (
+                                                <li key={idx}>{restaurant}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                     <a href={selectedDestination.mapUrl} target="_blank" className="btn-map inline-block mt-4">
-                                       Ver Rota
+                                        Ver Rota
                                     </a>
                                 </div>
                             </div>
