@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechSolutions – Fale Conosco</title>
+
+<style>
+
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CABEÇALHO */
+header{
+background:#0a3d62;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+/* CONTAINER */
+.container{
+display:flex;
+justify-content:center;
+align-items:center;
+padding:30px;
+}
+
+/* FORMULÁRIO */
+form{
+background:#f4f4f4;
+padding:25px;
+border-radius:8px;
+width:100%;
+max-width:500px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+input, select, textarea{
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+font-size:14px;
+}
+
+textarea{
+resize:none;
+height:100px;
+}
+
+/* BOTÃO */
+button{
+background:#0a3d62;
+color:white;
+border:none;
+padding:12px;
+cursor:pointer;
+border-radius:5px;
+font-size:16px;
+}
+
+button:hover{
+background:#1e5f8b;
+}
+
+/* MENSAGEM DE ERRO */
+.erro{
+color:red;
+font-size:12px;
+}
+
+.sucesso{
+color:green;
+font-size:12px;
+}
+
+/* RODAPÉ */
+footer{
+background:#0a3d62;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:20px;
+}
+
+/* RESPONSIVO */
+@media(max-width:600px){
+form{
+width:90%;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>TechSolutions – Fale Conosco</h1>
+<p>Entre em contato com nossa equipe</p>
+</header>
+
+<div class="container">
+
+<form id="formContato">
+
+<label>Nome</label>
+<input type="text" id="nome">
+<span id="erroNome" class="erro"></span>
+
+<label>E-mail</label>
+<input type="email" id="email">
+<span id="erroEmail" class="erro"></span>
+
+<label>Telefone</label>
+<input type="text" id="telefone" placeholder="(00) 00000-0000">
+<span id="erroTelefone" class="erro"></span>
+
+<label>Assunto</label>
+<select id="assunto">
+<option>Suporte</option>
+<option>Vendas</option>
+<option>Reclamação</option>
+<option>Outros</option>
+</select>
+
+<label>Mensagem</label>
+<textarea id="mensagem"></textarea>
+<span id="erroMensagem" class="erro"></span>
+
+<label>
+<input type="checkbox" id="termos">
+ Aceito os termos de privacidade
+</label>
+<span id="erroTermos" class="erro"></span>
+
+<button type="submit">Enviar</button>
+
+</form>
+
+</div>
+
+<footer>
+<p>© 2026 TechSolutions - Todos os direitos reservados</p>
+</footer>
+
+<script>
+
+// VALIDAÇÃO NOME
+document.getElementById("nome").oninput = function(){
+let nome = this.value
+let erro = document.getElementById("erroNome")
+
+if(nome.length < 3){
+erro.innerHTML="O nome deve ter pelo menos 3 caracteres."
+}else{
+erro.innerHTML="✓ Nome válido"
+erro.className="sucesso"
+}
+}
+
+// VALIDAÇÃO EMAIL
+document.getElementById("email").oninput = function(){
+
+let email = this.value
+let erro = document.getElementById("erroEmail")
+
+let regex = /\S+@\S+\.\S+/
+
+if(!regex.test(email)){
+erro.innerHTML="Digite um e-mail válido."
+}else{
+erro.innerHTML="✓ E-mail válido"
+erro.className="sucesso"
+}
+}
+
+// MÁSCARA TELEFONE
+document.getElementById("telefone").addEventListener("input", function(){
+
+let telefone = this.value.replace(/\D/g,"")
+
+telefone = telefone.replace(/^(\d{2})(\d)/g,"($1) $2")
+telefone = telefone.replace(/(\d{5})(\d)/,"$1-$2")
+
+this.value = telefone
+
+})
+
+// VALIDAÇÃO MENSAGEM
+document.getElementById("mensagem").oninput = function(){
+
+let msg = this.value
+let erro = document.getElementById("erroMensagem")
+
+if(msg.length < 10){
+erro.innerHTML="A mensagem deve ter pelo menos 10 caracteres."
+}else{
+erro.innerHTML="✓ Mensagem válida"
+erro.className="sucesso"
+}
+
+}
+
+// ENVIO DO FORMULÁRIO
+document.getElementById("formContato").onsubmit = function(e){
+
+e.preventDefault()
+
+let termos = document.getElementById("termos").checked
+
+if(!termos){
+document.getElementById("erroTermos").innerHTML="Você precisa aceitar os termos."
+return
+}
+
+alert("Dados enviados com sucesso!")
+
+}
+
+</script>
+
+</body>
+</html>
